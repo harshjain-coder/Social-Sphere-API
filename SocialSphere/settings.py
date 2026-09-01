@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,13 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-nd#$9s8u8qdn0g!*(2np8i%1w+_$$r-ht%l3b_h46&!ax4s9!h'
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-development-key")
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    os.environ.get("RENDER_EXTERNAL_HOSTNAME", "localhost"),
+    "127.0.0.1",
+    "localhost",
+]
 
 # Application definition
 
@@ -77,19 +80,11 @@ WSGI_APPLICATION = 'SocialSphere.wsgi.application'
 # settings.py
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'platform',         # The name of the database you created
-        'USER': 'root',      # Default is usually 'root'
-        'PASSWORD': '1008',    # Your MySQL user password
-        'HOST': '127.0.0.1',            # Use 'localhost' or your server IP
-        'PORT': '3306',                 # Default MySQL port
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        }
-    }
+    "default": dj_database_url.config(
+        default="sqlite:///db.sqlite3",
+        conn_max_age=600
+    )
 }
-
 
 
 # Password validation

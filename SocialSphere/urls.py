@@ -20,7 +20,7 @@ from rest_framework_simplejwt.views import (TokenObtainPairView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/talkhub/', include('TalkHub.urls'))
+    path('api/talkhub/', include('TalkHub.urls')),
     path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     
     
