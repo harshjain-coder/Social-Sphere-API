@@ -1,34 +1,34 @@
-# Social-Sphere-API
+# Social Sphere — Social Media API + Frontend
 
-A backend REST API project built using Django and Django REST Framework. It provides user authentication and social media features like posts, comments, likes, and follow/unfollow.
+Portfolio-ready Django REST social application with JWT authentication and a responsive HTML/CSS/JavaScript frontend.
 
 ## Features
-- User Registration & Login
-- JWT Authentication
-- User Profile Management
-- Create, Update & Delete Posts
-- Like & Unlike Posts
-- Comment on Posts
-- Follow & Unfollow Users
+- Secure signup/login with JWT
+- Text posts with captions
+- Image/video posts using file upload only (no media URL fields in the Create Post UI)
+- Uploaded media is rendered directly in the feed; URLs are internal implementation details
+- Full image/video aspect ratio is preserved; media is never cropped by the feed CSS
+- Like/unlike, comments, save/unsave, follow/unfollow
+- Trending feed and search
+- PostgreSQL-ready production configuration
+- Cloudinary support for persistent production media storage
 
-## Tech Stack
-- Python
-- Django
-- Django REST Framework
-- MySQL
-- JWT Authentication
-- Git & GitHub
-
-## How to Run
-
-```bash
-git clone https://github.com/harshjain-coder/Social-Sphere-API.git
-cd Social-Sphere-API
-pip install -r requirements.txt
+## Run locally
+```powershell
+python -m venv env
+env\Scripts\activate
+python -m pip install -r requirements.txt
+$env:SECRET_KEY = "local-development-secret-change-me"
+$env:DEBUG = "True"
 python manage.py migrate
 python manage.py runserver
 ```
+Frontend in a second terminal:
+```powershell
+cd frontend
+python -m http.server 5500
+```
+Open `http://127.0.0.1:5500`.
 
-## Author
-
-Harsh Jain
+## Production media
+Render's local filesystem is temporary. Set `CLOUDINARY_URL` in Render Environment before enabling image/video uploads on the live site. The backend automatically uploads image files as images and video files as videos to Cloudinary and stores only the returned secure media address internally.
